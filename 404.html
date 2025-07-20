@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 - 404错误</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4f8, #e1e8f0);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 100, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .decoration {
+            position: absolute;
+            opacity: 0.05;
+            font-size: 180px;
+            font-weight: bold;
+            z-index: 0;
+        }
+        
+        .dec-1 {
+            top: -30px;
+            left: 10%;
+            animation: float 12s infinite ease-in-out;
+        }
+        
+        .dec-2 {
+            bottom: 20px;
+            right: 10%;
+            animation: float 10s infinite ease-in-out reverse;
+        }
+        
+        .main-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 120px;
+            color: #3b82f6;
+            margin-bottom: 10px;
+            text-shadow: 0 3px 10px rgba(59, 130, 246, 0.2);
+        }
+        
+        h2 {
+            font-size: 32px;
+            color: #1e293b;
+            margin-bottom: 25px;
+        }
+        
+        p {
+            font-size: 18px;
+            color: #475569;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        
+        .home-button {
+            display: inline-block;
+            padding: 16px 48px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s;
+            margin-bottom: 50px;
+        }
+        
+        .home-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+        }
+        
+        .fun-section {
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 25px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .fun-link {
+            color: #8b5cf6;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .fun-link:hover {
+            text-decoration: underline;
+        }
+        
+        .lock-hint {
+            background-color: #f8fafc;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 8px;
+            margin-top: 12px;
+            color: #475569;
+            border: 1px dashed #cbd5e1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 80px; }
+            h2 { font-size: 24px; }
+            p { font-size: 16px; }
+            .home-button { padding: 12px 36px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decoration dec-1">404</div>
+        <div class="decoration dec-2">Error</div>
+        
+        <div class="main-content">
+            <h1>404</h1>
+            <h2>哎呀，页面迷路了</h2>
+            <p>看来你要访问的页面不存在或者已经搬家了。可能是地址输入错误，或者页面正在维护中。</p>
+            <a href="https://sodous-s.github.io" class="home-button">返回首页</a>
+            
+            <div class="fun-section">
+                <small>友情提示：如果你想恶搞朋友，可以试试<br/>
+                <a href="https://sodous-s.github.io/work/friend/" class="fun-link">这个特殊链接</a></small>
+                <div class="lock-hint">解锁码: abcd朋友最帅</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 鼠标移动视差效果
+        document.addEventListener('mousemove', (e) => {
+            const container = document.querySelector('.container');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+    </script>
+</body>
+</html>
 
