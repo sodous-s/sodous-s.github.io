@@ -388,32 +388,32 @@
             
             // 显示消息并添加动画效果
             const messageEl = document.getElementById('message');
-query为空
+            messageEl.textContent = message;
             
-query为空
-query为空
-"我有一个科学实验，你想看吗？🔬"."我长大后想造火箭去太空！🚀"."运动让身体棒棒哒！🏃" = 'scale(1.2)';
-"今天又学到新知识真开心！🥳"(() => {
-"我觉得编程像魔法一样神奇！🧙‍♂️".功能.showMessage = 'scale(1)';
-}, 300);
+            // 动画效果
+            messageEl.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                messageEl.style.transform = 'scale(1)';
+            }, 300);
+        }
         
-努姆
-// 从所有消息中随机选择一个'DOMContentLoaded'康斯特{
-随机指数 数学 = messageEl.风格;
-改变setTimeout = [messageEl, 风格, 改变, "我有一个科学实验，你想看吗？🔬"
+        // 添加漂浮小图标
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.body;
+            const emojis = ['✏️', '📚', '🎮', '⚽', '🎨', '🔍', '🎯', '🍎', '🧩', '🌈'];
             
-我长大后想造火箭去太空！🚀 (运动让身体棒棒哒！🏃 = 0; ='刻度（1.2）'；
-"今天又学到新知识真开心！🥳" = "我觉得编程像魔法一样神奇！🧙‍♂️".功能('div');
-showMessage.'努姆//从所有消息中随机选择一个'domcontloaded{OS随机指数';
-数学
-地板.''数学''.''随机的''信息''🌈''.'长度%';
-漂浮.风格.左边 = 数学.随机的() * 100 + '%';
-漂浮.风格.字形大小 = (数学.随机的() * 10 + 20) + 'px';
-漂浮.风格.延迟 = 数学.随机的() * 10 + 's';
-漂浮.风格.持续时间 = (数学.随机的() * 10 + 10) + 's';
-剧本
-身体
-超文本标记语言
+            for (let i = 0; i < 15; i++) {
+                const floatIcon = document.createElement('div');
+                floatIcon.className = 'decoration';
+                floatIcon.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                floatIcon.style.top = Math.random() * 100 + '%';
+                floatIcon.style.left = Math.random() * 100 + '%';
+                floatIcon.style.fontSize = (Math.random() * 10 + 20) + 'px';
+                floatIcon.style.animationDelay = Math.random() * 10 + 's';
+                floatIcon.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(floatIcon);
+            }
+        });
     </script>
 </body>
 </html>
