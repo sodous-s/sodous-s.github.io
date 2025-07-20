@@ -1,1 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认真学习系统-终极版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+            user-select: none;
+        }
+        
+        body {
+            background: linear-gradient(120deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #81c784;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+        
+        .option-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            margin: 15px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .option-btn:hover {
+            background: #66bb6a;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        #startStudyBtn, #startGameBtn {
+            background: #f44336;
+            color: white;
+            font-size: 1.5rem;
+            padding: 20px 60px;
+            transition: all 0.2s;
+            position: absolute;
+        }
+        
+        #startStudyBtn:hover, #startGameBtn:hover {
+            background: #ef5350;
+        }
+        
+        .study-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .book {
+            width: 200px;
+            height: 280px;
+            background: #795548;
+            margin: 20px auto;
+            border-radius: 5px 15px 15px 5px;
+            position: relative;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .book:before {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 100%;
+            background: #5d4037;
+            right: 0;
+            top: 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .book-title {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-align: left;
+            width: 150px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #424242;
+            border-radius: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 5%;
+            background: #4fc3f7;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        
+        .floating-btns {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .escape-btn {
+            position: absolute;
+            pointer-events: auto;
+            transition: all 0.5s;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .game-area {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* 修改后的神秘链接样式 */
+        .mystery-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            position: relative;
+            padding: 3px 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .mystery-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            text-decoration: underline;
+        }
+        
+        .mystery-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s;
+        }
+        
+        .mystery-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
 
+        /* 电脑蓝屏模拟 */
+        #blueScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0078d7;
+            color: white;
+            font-family: Consolas, monospace;
+            padding: 50px;
+            line-height: 1.6;
+            z-index: 9999;
+            display: none;
+            overflow-y: auto;
+        }
+        
+        /* 手机崩溃模拟 - 增强版 */
+        #systemCrash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            display: none;
+            color: #e0e0e0;
+        }
+        
+        .crash-content {
+            background: #212121;
+            border-radius: 8px;
+            padding: 20px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        
+        #crashMessage {
+            animation: crashFlicker 0.8s infinite;
+        }
+        
+        @keyframes crashFlicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .fake-loader {
+            height: 4px;
+            width: 100%;
+            background: #333;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .fake-loader-bar {
+            height: 100%;
+            width: 0%;
+            background: #4fc3f7;
+            animation: fakeLoad 5s linear infinite;
+        }
+        
+        @keyframes fakeLoad {
+            0% { width: 0%; }
+            20% { width: 25%; }
+            40% { width: 40%; }
+            60% { width: 60%; }
+            80% { width: 85%; }
+            90% { width: 95%; }
+            95% { width: 99%; }
+            99% { width: 100%; }
+            100% { width: 100%; }
+        }
+        
+        /* 解锁界面 */
+        #unlockSection {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        #unlockInput {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #333;
+            color: white;
+            border: 1px solid #666;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        #unlockBtn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        .instruction {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        /* 卡顿效果 */
+        .freeze {
+            animation: freezeEffect 0.3s infinite;
+        }
+        
+        @keyframes freezeEffect {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(2px, 0); }
+            40% { transform: translate(-2px, 2px); }
+            60% { transform: translate(0, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+        
+        .escape-text {
+            position: absolute;
+            color: #ff9800;
+            font-weight: bold;
+            pointer-events: none;
+            animation: floatText 4s linear forwards;
+        }
+        
+        @keyframes floatText {
+            0% { transform: translateY(0) translateX(0); opacity: 1; }
+            50% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+            100% { transform: translateY(-200px) translateX(100px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 选择页面 -->
+        <div id="selectionPage">
+            <h1>📚 超级学习系统 PRO MAX</h1>
+            <p class="subtitle">国家级认证学习平台，专为学霸设计！</p>
+            
+            <div class="study-content">
+                <h2>请选择今日计划：</h2>
+                <button class="option-btn" id="studyOptionBtn">认真学习</button>
+                <button class="option-btn" id="playOptionBtn">娱乐一下</button>
+                
+                <!-- 固定位置的神秘链接 -->
+                <a href="#" class="mystery-link" id="mysteryLink">神秘入口</a>
+                
+                <div class="instruction">
+                    <p>🔥 热门：选择认真学习模式，获得价值￥9980的精品课程！</p>
+                    <p>❤️ 98.7%的用户成功完成了当天的学习计划</p>
+                    <p>⚠️ 系统提示：严禁连续学习超过8小时</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 学习界面 -->
+        <div id="studyPage" class="hidden">
+            <h1>📖 深度专注模式</h1>
+            <p class="subtitle">请立刻开始学习，完成今日学习任务！</p>
+            
+            <div class="study-content">
+                <div class="book">
+                    <div class="book-title">高阶量子力学与时空扭曲理论</div>
+                </div>
+                
+                <p class="instruction">
+                    💡 今日课程：<br>
+                    - 量子纠缠的非局部性解析<br>
+                    - 黑洞信息悖论的最新进展<br>
+                    - 多维空间的拓扑结构研究
+                </p>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                
+                <div class="floating-btns">
+                    <button id="startStudyBtn" class="escape-btn">开始学习</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 游戏界面 -->
+        <div id="gamePage" class="hidden">
+            <h1>🎮 休息娱乐区</h1>
+            <p class="subtitle">恭喜你发现秘密娱乐区！</p>
+            
+            <div class="game-area">
+                <p class="instruction">
+                    🎯 终极目标：点击到"开始娱乐"按钮<br>
+                    🏆 当前通关记录：0人
+                </p>
+                
+                <div id="gameArea"></div>
+                
+                <div id="gameControl">
+                    <div class="floating-btns">
+                        <button id="startGameBtn" class="escape-btn">开始娱乐</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 电脑蓝屏模拟 -->
+    <div id="blueScreen">
+        <h1 style="color:white; font-size:24px; margin-bottom:30px;">:(</h1>
+        <p style="font-size:18px;">你的设备遇到问题，需要重启。</p>
+        <p style="font-size:18px; margin:20px 0;">我们只收集某些错误信息，然后你可以重新启动。</p>
+        
+        <div style="margin:30px 0;">
+            <p>错误代码: SYSTEM_SERVICE_EXCEPTION</p>
+            <p>错误地址: 0xFFFFF8015B911F28</p>
+            <p>时间戳: 0x1D9EFCB13</p>
+            <p>失败的操作: win32kbase.sys</p>
+        </div>
+        
+        <div style="position:absolute; bottom:50px; width:100%; text-align:center;">
+            <div style="display:inline-block; text-align:left;">
+                <p>100% 完成</p>
+                <div class="fake-loader">
+                    <div class="fake-loader-bar"></div>
+                </div>
+                <p>请在重新启动后联系我们了解更多信息</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 手机崩溃模拟 - 增强版 -->
+    <div id="systemCrash">
+        <div class="crash-content">
+            <div id="crashInfo">
+                <h3 style="color:#f44336; margin-bottom:15px;">您的系统已停止运行</h3>
+                <p style="margin:15px 0;">很抱歉，系统UI进程意外停止。</p>
+                <div id="crashMessage">
+                    <p>错误原因: FATAL_EXCEPTION_IN_SYSTEM</p>
+                    <p>错误码: #0xFE9A21C</p>
+                    <p>处理器: ARM64 核心: 8</p>
+                    <p>RAM: 9.1G/12.0G</p>
+                </div>
+                <div style="margin-top:20px;">
+                    <button id="crashConfirmBtn" style="background:#333; color:#e0e0e0; border:none; padding:8px 16px; border-radius:4px; width:100%;">确定</button>
+                </div>
+            </div>
+            
+            <div id="unlockSection">
+                <h3 style="color:#ff9800; margin-bottom:15px;">系统已锁定</h3>
+                <p>快去找你的朋友去要解锁口令吧</p>
+                <input type="text" id="unlockInput" placeholder="输入解锁口令">
+                <button id="unlockBtn">解锁</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const selectionPage = document.getElementById('selectionPage');
+        const studyPage = document.getElementById('studyPage');
+        const gamePage = document.getElementById('gamePage');
+        const startStudyBtn = document.getElementById('startStudyBtn');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const progressBar = document.getElementById('progressBar');
+        const mysteryLink = document.getElementById('mysteryLink');
+        const blueScreen = document.getElementById('blueScreen');
+        const systemCrash = document.getElementById('systemCrash');
+        const crashInfo = document.getElementById('crashInfo');
+        const unlockSection = document.getElementById('unlockSection');
+        const crashConfirmBtn = document.getElementById('crashConfirmBtn');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const unlockInput = document.getElementById('unlockInput');
+        const gameArea = document.getElementById('gameArea');
+        
+        // 状态变量
+        let escapeAttempts = 0;
+        let crashCount = 0;
+        let messages = [
+            "来抓我呀!", "嘿嘿，抓不到!", "来这边!", 
+            "往左边点!", "差一点点哦!", "又跑了!", 
+            "手速要快!", "太慢啦!", "别放弃!",
+            "上头了吧!", "下头了哦!", "再上头了!"
+        ];
+        
+        // 初始化 - 显示选择页面
+        selectionPage.classList.remove('hidden');
+        
+        // 设置神秘链接点击事件
+        mysteryLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // 根据设备类型显示不同的崩溃效果
+            if (window.innerWidth > 768) {
+                showBlueScreen();
+            } else {
+                showSystemCrash();
+            }
+        });
+        
+        // 选择学习模式
+        document.getElementById('studyOptionBtn').addEventListener('click', function() {
+            selectionPage.classList.add('hidden');
+            studyPage.classList.remove('hidden');
+            initStudyMode();
+        });
+        
+        // 选择游戏模式
+        document.getElementById('playOptionBtn').addEventListener('click', function() {
+            selectionPage.classList.add('hidden');
+            gamePage.classList.remove('hidden');
+            initGameMode();
+        });
+        
+        // 初始化学习模式
+        function initStudyMode() {
+            escapeAttempts = 0;
+            resetStudyButton();
+            
+            // 设置学习按钮事件
+            startStudyBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                escapeAttempts++;
+                
+                if (escapeAttempts > 10) {
+                    // 按钮变得非常小
+                    startStudyBtn.style.transform = 'scale(0.01)';
+                    startStudyBtn.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        alert("❌ 学习系统已锁定！您只能去娱乐区放松了！");
+                        studyPage.classList.add('hidden');
+                        gamePage.classList.remove('hidden');
+                        initGameMode();
+                    }, 500);
+                } else {
+                    // 添加搞笑信息
+                    if (escapeAttempts % 2 === 0) {
+                        createFloatingText("上头了!");
+                    } else {
+                        createFloatingText("下头了!");
+                    }
+                    
+                    // 缩小按钮
+                    const scale = 1 - (escapeAttempts * 0.1);
+                    startStudyBtn.style.transform = `scale(${scale})`;
+                    
+                    // 移动按钮到随机位置
+                    const container = document.querySelector('.study-content');
+                    const containerRect = container.getBoundingClientRect();
+                    const btnRect = startStudyBtn.getBoundingClientRect();
+                    
+                    const maxX = containerRect.width - btnRect.width * scale;
+                    const maxY = containerRect.height - btnRect.height * scale;
+                    
+                    const newX = Math.random() * maxX;
+                    const newY = Math.random() * maxY;
+                    
+                    startStudyBtn.style.left = `${newX}px`;
+                    startStudyBtn.style.top = `${newY}px`;
+                    
+                    // 模拟进度增加
+                    progressBar.style.width = escapeAttempts * 10 + '%';
+                }
+            });
+        }
+        
+        // 创建浮动文字
+        function createFloatingText(text) {
+            const floatingText = document.createElement('div');
+            floatingText.className = 'escape-text';
+            floatingText.textContent = text;
+            floatingText.style.left = `${Math.random() * 70 + 15}%`;
+            floatingText.style.top = `${Math.random() * 50 + 25}%`;
+            gamePage.appendChild(floatingText);
+            
+            // 清理
+            setTimeout(() => {
+                if (gamePage.contains(floatingText)) {
+                    gamePage.removeChild(floatingText);
+                }
+            }, 4000);
+        }
+        
+        // 重置学习按钮
+        function resetStudyButton() {
+            startStudyBtn.style.transform = 'scale(1)';
+            startStudyBtn.style.opacity = '1';
+            startStudyBtn.style.left = 'calc(50% - 75px)';
+            startStudyBtn.style.top = 'calc(50% - 25px)';
+        }
+        
+        // 初始化游戏模式
+        function initGameMode() {
+            escapeAttempts = 0;
+            resetGameButton();
+            
+            // 设置游戏按钮事件
+            startGameBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                escapeAttempts++;
+                
+                if (escapeAttempts > 8) {
+                    // 按钮变小消失
+                    startGameBtn.style.transform = 'scale(0.01)';
+                    startGameBtn.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        createFloatingText("嘿嘿，消失了!");
+                    }, 500);
+                } else {
+                    // 添加搞笑信息
+                    const msgIndex = Math.min(escapeAttempts, messages.length - 1);
+                    createFloatingText(messages[msgIndex]);
+                    
+                    // 卡顿效果
+                    document.body.classList.add('freeze');
+                    setTimeout(() => {
+                        document.body.classList.remove('freeze');
+                    }, 300);
+                    
+                    // 缩小按钮
+                    const scale = 1 - (escapeAttempts * 0.12);
+                    startGameBtn.style.transform = `scale(${scale})`;
+                    
+                    // 移动按钮到随机位置
+                    const container = document.querySelector('.game-area');
+                    const containerRect = container.getBoundingClientRect();
+                    const btnRect = startGameBtn.getBoundingClientRect();
+                    
+                    const maxX = containerRect.width - btnRect.width * scale;
+                    const maxY = containerRect.height - btnRect.height * scale;
+                    
+                    const newX = Math.random() * maxX;
+                    const newY = Math.random() * maxY;
+                    
+                    startGameBtn.style.left = `${newX}px`;
+                    startGameBtn.style.top = `${newY}px`;
+                }
+            });
+        }
+        
+        // 显示蓝屏（电脑）
+        function showBlueScreen() {
+            blueScreen.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // 按ESC退出
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    blueScreen.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+        
+        // 显示系统崩溃（手机）- 增强版
+        function showSystemCrash() {
+            systemCrash.style.display = 'flex';
+            crashInfo.style.display = 'block';
+            unlockSection.style.display = 'none';
+            crashCount = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 重置游戏按钮
+        function resetGameButton() {
+            startGameBtn.style.transform = 'scale(1)';
+            startGameBtn.style.opacity = '1';
+            startGameBtn.style.left = 'calc(50% - 75px)';
+            startGameBtn.style.top = 'calc(50% - 25px)';
+        }
+        
+        // 崩溃确认按钮事件
+        crashConfirmBtn.addEventListener('click', function() {
+            crashCount++;
+            
+            if (crashCount < 10) {
+                // 模拟重新弹窗
+                systemCrash.style.display = 'none';
+                setTimeout(() => {
+                    systemCrash.style.display = 'flex';
+                }, 100);
+            } else {
+                // 显示解锁界面
+                crashInfo.style.display = 'none';
+                unlockSection.style.display = 'block';
+            }
+        });
+        
+        // 解锁按钮事件
+        unlockBtn.addEventListener('click', function() {
+            if (unlockInput.value === "abcd朋友最帅") {
+                systemCrash.style.display = 'none';
+                document.body.style.overflow = '';
+            } else {
+                alert('口令错误！请重新输入！');
+                unlockInput.value = '';
+                unlockInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>
