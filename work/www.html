@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>钻石浏览器</title>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --hover-color: #004d99;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --bg-light: #f5f5f7;
+            --bg-error: #ff4444;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+        }
+        
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            background-color: var(--bg-light);
+            overflow: hidden;
+        }
+        
+        .header { 
+            background-color: var(--primary-color); 
+            color: var(--text-light); 
+            padding: 16px 20px; 
+            box-shadow: var(--shadow-md); 
+            z-index: 100;
+        }
+        
+        .search-container { 
+            display: flex; 
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .engine-selector {
+            min-width: 120px;
+            padding: 12px 16px;
+            background: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .engine-selector:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+        
+        .url-input-container {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            position: relative;
+        }
+        
+        #url-input { 
+            flex: 1; 
+            padding: 12px 48px 12px 20px; 
+            border: none; 
+            border-radius: 24px; 
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        
+        #url-input:focus {
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2), 0 0 0 2px var(--primary-color);
+        }
+        
+        .favicon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+        }
+        
+        #go-btn { 
+            padding: 12px 28px;
+            background-color: var(--primary-color); 
+            color: var(--text-light); 
+            border: none; 
+            border-radius: 24px; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 16px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        #go-btn:hover { 
+            background-color: var(--hover-color); 
+            transform: translateY(-1px);
+        }
+        
+        #go-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .content { 
+            flex: 1; 
+            position: relative; 
+            overflow: hidden;
+        }
+        
+        #browser-frame { 
+            width: 100%; 
+            height: 100%; 
+            border: none;
+            background-color: white;
+            display: block;
+        }
+        
+        #error-message {
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            right: 0;
+            background-color: var(--bg-error);
+            color: var(--text-light);
+            padding: 16px;
+            text-align: center;
+            transform: translateY(-100%);
+            transition: transform 0.4s ease;
+            z-index: 100;
+            font-size: 15px;
+        }
+        
+        #error-message.show { 
+            transform: translateY(0); 
+        }
+        
+        .loading-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loader { 
+            width: 48px; 
+            height: 48px; 
+            border: 4px solid rgba(0,0,0,0.1); 
+            border-top: 4px solid var(--primary-color); 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .engine-selector, #url-input, #go-btn {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            #go-btn {
+                padding: 14px;
+            }
+            
+            .header {
+                padding: 14px 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #url-input {
+                font-size: 15px;
+                padding: 12px 16px;
+            }
+            
+            .engine-selector, #go-btn {
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="font-size: 22px; font-weight: 600;">钻石浏览器</h1>
+        <div class="search-container">
+            <select class="engine-selector" id="engine-selector">
+                <option value="google">Google</option>
+                <option value="bing">Bing</option>
+                <option value="baidu">百度</option>
+                <option value="duckduckgo">DuckDuckGo</option>
+                <option value="direct" selected>直接访问</option>
+            </select>
+            
+            <div class="url-input-container">
+                <input type="text" id="url-input" placeholder="输入网址或搜索内容" autofocus>
+                <div class="favicon" id="favicon"></div>
+            </div>
+            
+            <button id="go-btn">前往</button>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div id="error-message"></div>
+        
+        <div class="loading-container" id="loading-container">
+            <div class="loader"></div>
+            <p class="loading-text">加载中...</p>
+        </div>
+        
+        <iframe id="browser-frame" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlInput = document.getElementById('url-input');
+            const goButton = document.getElementById('go-btn');
+            const browserFrame = document.getElementById('browser-frame');
+            const errorMessage = document.getElementById('error-message');
+            const loadingContainer = document.getElementById('loading-container');
+            const engineSelector = document.getElementById('engine-selector');
+            const favicon = document.getElementById('favicon');
+            
+            // 搜索引擎映射
+            const SEARCH_ENGINES = {
+                google: { 
+                    name: "Google", 
+                    url: "https://www.google.com/search?q=",
+                    favicon: "https://www.google.com/favicon.ico"
+                },
+                bing: {
+                    name: "Bing",
+                    url: "https://www.bing.com/search?q=",
+                    favicon: "https://www.bing.com/favicon.ico"
+                },
+                baidu: {
+                    name: "百度",
+                    url: "https://www.baidu.com/s?wd=",
+                    favicon: "https://www.baidu.com/favicon.ico"
+                },
+                duckduckgo: {
+                    name: "DuckDuckGo",
+                    url: "https://duckduckgo.com/?q=",
+                    favicon: "https://duckduckgo.com/favicon.ico"
+                },
+                direct: {
+                    name: "直接访问",
+                    url: "",
+                    favicon: ""
+                }
+            };
+            
+            // 更新收藏夹图标
+            function updateFavicon(engine) {
+                if (SEARCH_ENGINES[engine]?.favicon) {
+                    favicon.style.backgroundImage = `url(${SEARCH_ENGINES[engine].favicon})`;
+                    favicon.style.display = 'block';
+                } else {
+                    favicon.style.display = 'none';
+                }
+            }
+            
+            // 初始化设置
+            engineSelector.value = 'direct';
+            updateFavicon('direct');
+            
+            // 处理搜索引擎切换
+            engineSelector.addEventListener('change', () => {
+                const engine = engineSelector.value;
+                updateFavicon(engine);
+                
+                // 更新输入框提示
+                if (engine === 'direct') {
+                    urlInput.placeholder = '输入完整网址 (如 https://example.com)';
+                } else {
+                    urlInput.placeholder = `在${SEARCH_ENGINES[engine].name}搜索...`;
+                }
+                
+                urlInput.focus();
+            });
+            
+            // 处理URL加载
+            function loadUrl() {
+                let inputUrl = urlInput.value.trim();
+                if (!inputUrl) return;
+                
+                loadingContainer.classList.add('visible');
+                errorMessage.classList.remove('show');
+                
+                const selectedEngine = engineSelector.value;
+                let finalUrl = inputUrl;
+                
+                // 处理搜索引擎模式
+                if (selectedEngine !== 'direct' && 
+                   !inputUrl.includes('.') && 
+                   !inputUrl.startsWith('http://') && 
+                   !inputUrl.startsWith('https://')) {
+                    const searchEngine = SEARCH_ENGINES[selectedEngine];
+                    finalUrl = searchEngine.url + encodeURIComponent(inputUrl);
+                }
+                // 处理直接访问模式 - 自动补全协议
+                else if (selectedEngine === 'direct' && 
+                        !/^https?:\/\//i.test(inputUrl)) {
+                    finalUrl = 'https://' + inputUrl;
+                }
+                
+                // 超时机制（10秒）
+                const timeout = setTimeout(() => {
+                    showError('网站响应时间过长，请检查网址或网络连接');
+                    loadingContainer.classList.remove('visible');
+                }, 10000);
+                
+                browserFrame.onload = function() {
+                    clearTimeout(timeout);
+                    loadingContainer.classList.remove('visible');
+                    
+                    // 更新收藏夹图标为实际网站的
+                    try {
+                        const iframeDoc = browserFrame.contentDocument || browserFrame.contentWindow.document;
+                        const links = iframeDoc.querySelectorAll('link[rel~="icon"]');
+                        if (links.length > 0) {
+                            const href = links[0].href;
+                            if (href) {
+                                favicon.style.backgroundImage = `url(${href})`;
+                                favicon.style.display = 'block';
+                            }
+                        }
+                    } catch (e) {
+                        // 跨域限制，无法获取
+                    }
+                };
+                
+                browserFrame.onerror = function() {
+                    clearTimeout(timeout);
+                    showError('无法加载网站，请确认网址正确且网站可访问');
+                    loadingContainer.classList.remove('visible');
+                };
+                
+                try {
+                    urlInput.value = finalUrl;
+                    browserFrame.src = finalUrl;
+                } catch (e) {
+                    showError('网址格式错误：' + e.message);
+                    loadingContainer.classList.remove('visible');
+                }
+            }
+            
+            // 显示错误信息
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.classList.add('show');
+                
+                // 5秒后自动隐藏
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 5000);
+            }
+            
+            // 事件监听
+            goButton.addEventListener('click', loadUrl);
+            urlInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') loadUrl();
+            });
+            
+            // 添加历史记录（简化的伪代码）
+            const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        });
+    </script>
+</body>
+</html>
