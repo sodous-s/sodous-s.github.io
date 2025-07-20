@@ -1,10 +1,419 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>My GitHub Pages Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王艺轩的个人主页 - 华苑小学五年级</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffdb73, #85d8fb, #ffb8d3);
+            min-height: 100vh;
+            padding: 20px;
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .header {
+            width: 100%;
+            max-width: 1000px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .header::before {
+            content: "★";
+            font-size: 300px;
+            position: absolute;
+            top: -120px;
+            left: -60px;
+            color: rgba(255, 215, 0, 0.15);
+            transform: rotate(20deg);
+            z-index: 0;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            font-size: 3.5rem;
+            margin: 15px 0;
+            text-shadow: 3px 3px 0 #ffd166;
+            position: relative;
+            z-index: 1;
+            animation: nameGlow 2s infinite alternate;
+        }
+        
+        @keyframes nameGlow {
+            from { text-shadow: 3px 3px 0 #ffd166, 0 0 10px #ff9a8b; }
+            to { text-shadow: 3px 3px 0 #ffd166, 0 0 25px #ff6b6b; }
+        }
+        
+        .school-info {
+            background: linear-gradient(to right, #4da8da, #3dc2c7);
+            color: white;
+            padding: 15px;
+            border-radius: 20px;
+            margin: 15px auto;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 1.8rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 25px;
+            padding: 30px;
+            width: 45%;
+            min-width: 300px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: #ff7b54;
+            font-size: 2rem;
+        }
+        
+        .card-title::before {
+            content: "✦";
+            font-size: 2rem;
+            margin-right: 12px;
+        }
+        
+        .icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+        
+        ul {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 18px 0;
+            font-size: 1.4rem;
+            line-height: 1.5;
+        }
+        
+        .favorites img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        .emojis {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-top: 15px;
+            letter-spacing: 15px;
+        }
+        
+        .game-area {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 25px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .game-title {
+            color: #ff6b6b;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .bubbles {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .bubble {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffffff, #a5deff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 3rem;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .bubble:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .result {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-top: 25px;
+            min-height: 2.5rem;
+        }
+        
+        .contact {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 25px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .contact-title {
+            color: #4da8da;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .email {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 3px dashed #4da8da;
+            animation: emailGlow 1.5s infinite alternate;
+        }
+        
+        @keyframes emailGlow {
+            from { box-shadow: 0 0 10px rgba(77, 168, 218, 0.5); }
+            to { box-shadow: 0 0 20px rgba(77, 168, 218, 0.8); }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        .decoration {
+            position: fixed;
+            z-index: -1;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 100px) rotate(90deg); }
+            50% { transform: translate(200px, 0) rotate(180deg); }
+            75% { transform: translate(100px, -100px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .school-info {
+                font-size: 1.4rem;
+            }
+            
+            .email {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <p>This is my first GitHub Pages site.</p>
+    <!-- 装饰元素 -->
+    <div class="decoration" style="top: 10%; left: 10%;">🚀</div>
+    <div class="decoration" style="top: 20%; right: 15%;">📚</div>
+    <div class="decoration" style="bottom: 30%; left: 5%;">🎨</div>
+    <div class="decoration" style="bottom: 20%; right: 10%;">⚽</div>
+    <div class="decoration" style="top: 40%; left: 20%;">🔬</div>
+    
+    <!-- 标题区域 -->
+    <div class="header">
+        <h1>王艺轩</h1>
+        <div class="school-info">
+            <span class="icon">🏫</span>
+            华苑小学 · 五年级 · 天津市宝坻区
+        </div>
+        <p style="font-size: 1.8rem; margin-top: 20px; position: relative; z-index: 1;">
+            嗨！我是一个爱学习、爱探索、爱生活的五年级学生！✨
+        </p>
+    </div>
+    
+    <!-- 内容卡片 -->
+    <div class="card-container">
+        <div class="card">
+            <div class="card-title">关于我</div>
+            <ul>
+                <li><span class="icon">👦</span> 一个10岁的小男孩</li>
+                <li><span class="icon">❤️</span> 性格：开朗、活泼、有点调皮</li>
+                <li><span class="icon">🤝</span> 喜欢结交新朋友</li>
+                <li><span class="icon">🔍</span> 对世界充满好奇，热爱科学</li>
+                <li><span class="icon">🏆</span> 梦想：当一名科学家</li>
+            </ul>
+            <div class="emojis">🎮🎲🎨🎭🏃🚀</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">兴趣爱好</div>
+            <ul>
+                <li><span class="icon">📚</span> 阅读科学百科</li>
+                <li><span class="icon">⚽</span> 运动：跳绳、跑步</li>
+                <li><span class="icon">🎮</span> 玩编程小游戏</li>
+                <li><span class="icon">🔬</span> 做科学小实验</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">喜欢的科目</div>
+            <div class="favorites">
+                <ul>
+                    <li><img src="https://img.icons8.com/color/96/000000/math.png"> 数学 - 喜欢解有趣的数学题</li>
+                    <li><img src="https://img.icons8.com/color/96/000000/class.png"> 科学 - 探索自然和科技的奥秘</li>
+                    <li><img src="https://img.icons8.com/color/96/000000/computer.png"> 信息技术 - 学习用电脑创造东西</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 游戏区域 -->
+    <div class="game-area">
+        <div class="game-title">来玩个小游戏吧！猜猜我想对你说什么？</div>
+        <p style="font-size: 1.5rem; margin-bottom: 20px;">
+            点击下面任意泡泡，看看我会告诉你什么有趣的话！
+        </p>
+        <div class="bubbles">
+            <div class="bubble" onclick="showMessage(1)">😊</div>
+            <div class="bubble" onclick="showMessage(2)">🤔</div>
+            <div class="bubble" onclick="showMessage(3)">😎</div>
+            <div class="bubble" onclick="showMessage(4)">🤩</div>
+            <div class="bubble" onclick="showMessage(5)">🚀</div>
+        </div>
+        <div class="result" id="message"></div>
+    </div>
+    
+    <!-- 联系区域 -->
+    <div class="contact">
+        <h2 class="contact-title">联系我</h2>
+        <p style="font-size: 1.5rem; margin-bottom: 15px;">
+            可以通过邮箱和我联系：
+        </p>
+        <div class="email">aaaaaaaaaa10a2025@outlook.com</div>
+    </div>
+    
+    <!-- 页脚 -->
+    <div class="footer">
+        <p>王艺轩的个人主页 · 华苑小学五年级 · 2023</p>
+        <p>努力学习，快乐成长！天天向上！✍️🎒📖</p>
+    </div>
+
+    <script>
+        const messages = [
+            "你好！很高兴认识你！🤗",
+            "你知道吗？太阳系有8大行星！🌍",
+            "数学题虽然难，但解出来很酷！💯",
+            "我有一个科学实验，你想看吗？🔬",
+            "我长大后想造火箭去太空！🚀",
+            "运动让身体棒棒哒！🏃",
+            "今天又学到新知识真开心！🥳",
+            "我觉得编程像魔法一样神奇！🧙‍♂️"
+        ];
+        
+        function showMessage(num) {
+            // 从所有消息中随机选择一个
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            const message = messages[randomIndex];
+            
+            // 显示消息并添加动画效果
+            const messageEl = document.getElementById('message');
+query为空
+            
+query为空
+query为空
+"我有一个科学实验，你想看吗？🔬"."我长大后想造火箭去太空！🚀"."运动让身体棒棒哒！🏃" = 'scale(1.2)';
+"今天又学到新知识真开心！🥳"(() => {
+"我觉得编程像魔法一样神奇！🧙‍♂️".功能.showMessage = 'scale(1)';
+}, 300);
+        
+努姆
+// 从所有消息中随机选择一个'DOMContentLoaded'康斯特{
+随机指数 数学 = messageEl.风格;
+改变setTimeout = [messageEl, 风格, 改变, "我有一个科学实验，你想看吗？🔬"
+            
+我长大后想造火箭去太空！🚀 (运动让身体棒棒哒！🏃 = 0; ='刻度（1.2）'；
+"今天又学到新知识真开心！🥳" = "我觉得编程像魔法一样神奇！🧙‍♂️".功能('div');
+showMessage.'努姆//从所有消息中随机选择一个'domcontloaded{OS随机指数';
+数学
+地板.''数学''.''随机的''信息''🌈''.'长度%';
+漂浮.风格.左边 = 数学.随机的() * 100 + '%';
+漂浮.风格.字形大小 = (数学.随机的() * 10 + 20) + 'px';
+漂浮.风格.延迟 = 数学.随机的() * 10 + 's';
+漂浮.风格.持续时间 = (数学.随机的() * 10 + 10) + 's';
+剧本
+身体
+超文本标记语言
+    </script>
 </body>
 </html>
