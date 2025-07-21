@@ -1,1 +1,459 @@
-
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sodous - 领先的虚拟化解决方案</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c1027, #081b36, #00050a);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .parallax-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            perspective: 1px;
+        }
+        
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            z-index: 2;
+            transition: transform 1.2s ease-out;
+        }
+        
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(1.1) contrast(1.1);
+        }
+        
+        .stars-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1505506874110-6a7a69069a7f?q=80') center/cover;
+            z-index: 1;
+            transform: translateZ(-0.5px) scale(2.5);
+            opacity: 0.8;
+            filter: brightness(0.7) contrast(1.2);
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .content-container {
+            position: relative;
+            z-index: 3;
+        }
+        
+        .intro-section {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 4;
+            width: 90%;
+            max-width: 900px;
+        }
+        
+        .new-tag {
+            background: linear-gradient(45deg, #ff6b6b, #ff9e6b);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 25px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .typing-text {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 30px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background: #00b7ff;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .buy-button {
+            background: linear-gradient(45deg, #2196f3, #21cbf3);
+            color: white;
+            border: none;
+            padding: 14px 36px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.6);
+        }
+        
+        .section {
+            min-height: 100vh;
+            padding: 80px 5%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .white-section {
+            background-color: white;
+            color: #333;
+        }
+        
+        .dark-section {
+            background: #0a101f;
+            color: white;
+        }
+        
+        .why-section h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .why-section p {
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 600px;
+            opacity: 0.8;
+            margin-bottom: 50px;
+        }
+        
+        .image-container {
+            max-width: 900px;
+            width: 100%;
+            margin: 20px auto 50px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.03);
+        }
+        
+        .products-section h2 {
+            font-size: clamp(2.5rem, 5vw, 3rem);
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-icon {
+            padding: 30px;
+            background: linear-gradient(135deg, #1a2a6c, #2196f3);
+            text-align: center;
+            color: white;
+        }
+        
+        .product-icon i {
+            font-size: 3rem;
+        }
+        
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        .product-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-info p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .product-link {
+            display: inline-block;
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        
+        .product-link:hover {
+            color: #0d47a1;
+        }
+        
+        .footer {
+            background: #0a101f;
+            padding: 30px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部视频和星空背景 -->
+    <div class="parallax-container">
+        <div class="parallax-layer">
+            <div class="stars-bg"></div>
+        </div>
+        
+        <div class="video-container" id="videoContainer">
+            <video id="mainVideo" autoplay loop muted>
+                <source src="https://sodous-s.github.io/v.mp4/" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <!-- 文字展示区域 -->
+        <div class="content-container">
+            <div class="intro-section">
+                <div class="new-tag">上新</div>
+               <div class="typing-text" id="typeText">sodous虚拟机</div>
+                <button class="buy-button" onclick="window.location.href='https://sodous-s.github.io/company/buy/'">
+                    立刻购买
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- "为什么选择sodous"部分 -->
+    <section class="section why-section">
+        <h1>为什么选择sodous?</h1>
+        <p>已有超过300多家公司选择我们的虚拟化解决方案</p>
+        
+        <div class="image-container">
+            <img src="https://sodous-s.github.io/back.png" alt="Sodous技术展示">
+        </div>
+        
+        <div class="products-section">
+            <h2>更多产品</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-icon" style="background: linear-gradient(135deg, #FF5722, #FF9800);">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Sodous Cloud</h3>
+                        <p>强大安全的云计算平台，助力企业数字化转型，提供灵活的云存储和计算服务。</p>
+                        <a href="https://www.xiaomi.com/" class="product-link" target="_blank">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Sodous Security</h3>
+                        <p>企业级安全解决方案，多层防护确保数据安全，智能威胁监测与响应。</p>
+                        <a href="https://www.google.com/" class="product-link" target="_blank">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon" style="background: linear-gradient(135deg, #9C27B0, #673AB7);">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Sodous DB</h3>
+                        <p>高性能分布式数据库服务，具备高可用性和自动扩展能力，满足企业需求。</p>
+                        <a href="https://www.apple.com/" class="product-link" target="_blank">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon" style="background: linear-gradient(135deg, #2196F3, #03A9F4);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Sodous Analytics</h3>
+                        <p>强大的数据分析工具，帮助企业从海量数据中提取洞察力，驱动智能决策。</p>
+                        <a href="https://www.microsoft.com/" class="product-link" target="_blank">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <div class="footer">
+        <p>&copy; 2023 Sodous 科技有限公司 | 打造世界领先的虚拟化解决方案</p>
+    </div>
+    
+    <script>
+        // 打字动画效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const textElement = document.getElementById('typeText');
+            const texts = ['sodous虚拟机', 'Sodous Virtual Machine'];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let delay = 200; // 打字速度
+            
+            function type() {
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    // 删除字符
+                    textElement.textContent = currentText.substring(0, charIndex - 1) + '';
+                    charIndex--;
+                    
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        textIndex = (textIndex + 1) % texts.length;
+                        delay = 200; // 切换文本后重置延迟
+                    }
+                } else {
+                    // 添加字符
+                    textElement.textContent = currentText.substring(0, charIndex) + '';
+                    charIndex++;
+                    
+                    if (charIndex > currentText.length) {
+                        isDeleting = true;
+                        delay = 100; // 删除速度更快
+                        setTimeout(type, 1000); // 暂停1秒后开始删除
+                        return;
+                    }
+                }
+                
+                setTimeout(type, delay);
+            }
+            
+            // 开始打字动画
+            setTimeout(type, 1000);
+            
+            // 滚动视差效果
+            const videoContainer = document.getElementById('videoContainer');
+            const video = document.getElementById('mainVideo');
+            
+            let lastScrollY = window.scrollY;
+            
+            window.addEventListener('scroll', function() {
+                const scrollY = window.scrollY;
+                const scrollDirection = scrollY > lastScrollY ? 'down' : 'up';
+                
+                // 下滑时暂停视频并向上移动
+                if (scrollDirection === 'down') {
+                    if (!video.paused) {
+                        video.pause();
+                    }
+                    
+                    // 视频上移效果
+                    const moveAmount = Math.min(1, scrollY / window.innerHeight) * 100;
+                    videoContainer.style.transform = `translateY(-${moveAmount}%)`;
+                } else {
+                    // 上滑时可能恢复播放
+                    if (video.paused && scrollY < window.innerHeight / 2) {
+                        video.play();
+                    }
+                    
+                    // 恢复位置
+                    const moveAmount = Math.min(1, scrollY / window.innerHeight) * 100;
+                    videoContainer.style.transform = `translateY(-${moveAmount}%)`;
+                }
+                
+                lastScrollY = scrollY;
+            });
+        });
+    </script>
+</body>
+</html>
