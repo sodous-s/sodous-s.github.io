@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免责声明</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            text-align: center;
+            color: white;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            transform: scale(1.05);
+            opacity: 0;
+            animation: modalAppear 0.5s forwards;
+        }
+        
+        @keyframes modalAppear {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .modal-header {
+            background: #d9534f;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        
+        .modal-body {
+            padding: 30px;
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .confirm-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .confirm-btn:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        
+        .footer-note {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #eee;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            p {
+                font-size: 1.1rem;
+            }
+            
+            .modal-body {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>欢迎访问本网站</h1>
+        <p>请注意：本页面在显示免责声明后将自动跳转到指定链接<br>如果弹窗未出现，请刷新页面</p>
+        <p class="footer-note">本网站内容仅用于娱乐目的，所有信息皆为虚构创作</p>
+    </div>
+    
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">重要提示</div>
+            <div class="modal-body">
+                <p>您在此网站看见的所有内容纯属虚构，仅供娱乐，请勿当真。</p>
+                <p>所有人物、事件、名称均与现实无关，仅为故事情节设定。</p>
+                <p>如果您同意本声明，请点击"我同意"按钮继续访问。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-btn" id="confirmBtn">我同意，继续访问</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalOverlay = document.getElementById('modalOverlay');
+            const confirmBtn = document.getElementById('confirmBtn');
+            
+            // 显示弹窗（1秒后显示让页面先加载）
+            setTimeout(() => {
+                modalOverlay.style.display = 'flex';
+            }, 500);
+            
+            // 确认按钮事件
+            confirmBtn.addEventListener('click', function() {
+                // 添加跳转动画效果
+                modalOverlay.style.background = 'white';
+                document.querySelector('.modal').style.transform = 'scale(1.5)';
+                document.querySelector('.modal').style.opacity = '0';
+                
+                // 跳转到指定页面
+                setTimeout(() => {
+                    window.location.href = 'https://sodous-s.github.io/aboutme/';
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
