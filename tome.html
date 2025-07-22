@@ -161,34 +161,8 @@
                 <p>如果您同意本声明，请点击"我同意"按钮继续访问。</p>
             </div>
             <div class="modal-footer">
-                <button class="confirm-btn" id="confirmBtn">我同意，继续访问</button>
+                <a href="https://sodous-s.github.io/aboutme/" class="confirm-btn"> 我同意，继续访问</a>
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modalOverlay = document.getElementById('modalOverlay');
-            const confirmBtn = document.getElementById('confirmBtn');
-            
-            // 显示弹窗（1秒后显示让页面先加载）
-            setTimeout(() => {
-                modalOverlay.style.display = 'flex';
-            }, 500);
-            
-            // 确认按钮事件
-            confirmBtn.addEventListener('click', function() {
-                // 添加跳转动画效果
-                modalOverlay.style.background = 'white';
-                document.querySelector('.modal').style.transform = 'scale(1.5)';
-                document.querySelector('.modal').style.opacity = '0';
-                
-                // 跳转到指定页面
-                setTimeout(() => {
-                    window.location.href = 'https://sodous-s.github.io/aboutme/';
-                }, 500);
-            });
-        });
-    </script>
-</body>
-</html>
+    </html>
