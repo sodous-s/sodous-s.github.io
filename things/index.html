@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brainfuck专业编辑器</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-panel: #1e1e1e;
+            --primary: #007acc;
+            --text-main: #e0e0e0;
+            --border: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .panel {
+            background: var(--bg-panel);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .editor-container {
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        #editor {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            background: #161616;
+            color: #f0f0f0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            tab-size: 4;
+            resize: none;
+            border: none;
+            outline: none;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background: #0066b3;
+        }
+        
+        .btn-secondary {
+            background: #333;
+        }
+        
+        #output {
+            min-height: 150px;
+            padding: 15px;
+            background: #161616;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+        
+        .status-bar {
+            background: #1a1a1a;
+            padding: 8px 12px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Brainfuck专业编辑器</div>
+        </header>
+
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">代码编辑区</div>
+                <div class="controls">
+                    <button class="btn btn-secondary" id="btn-example">载入示例</button>
+                </div>
+            </div>
+            <div class="editor-container">
+                <textarea id="editor">>++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>+++++++++[<--------->-]<-.</textarea>
+            </div>
+            <div class="controls">
+                <button class="btn" id="btn-run">执行程序</button>
+                <button class="btn btn-secondary" id="btn-clear">清除输出</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">程序输出</div>
+            </div>
+            <div id="output">// 执行结果将显示在此处</div>
+        </div>
+
+        <div class="status-bar">
+            状态: <span id="exec-status">就绪</span>
+        </div>
+    </div>
+
+    <script>
+        class BrainfuckInterpreter {
+            constructor() {
+                this.memory = new Array(30000).fill(0);
+                this.pointer = 0;
+                this.output = '';
+                this.code = '';
+                this.codePointer = 0;
+            }
+
+            reset() {
+                this.memory = new Array(30000).fill(0);
+                this.pointer = 0;
+                this.output = '';
+                this.codePointer = 0;
+            }
+
+            loadCode(code) {
+                this.code = code.replace(/[^><+\-.,[\]]/g, '');
+                this.reset();
+            }
+
+            precomputeBrackets() {
+                const bracketMap = new Map();
+                const stack = [];
+                
+                for (let i = 0; i < this.code.length; i++) {
+                    if (this.code[i] === '[') {
+                        stack.push(i);
+                    } else if (this.code[i] === ']') {
+                        if (stack.length === 0) {
+                            throw new Error("语法错误: 缺少匹配的 '['");
+                        }
+                        const start = stack.pop();
+                        bracketMap.set(start, i);
+                        bracketMap.set(i, start);
+                    }
+                }
+                
+                if (stack.length > 0) {
+                    throw new Error("语法错误: 缺少匹配的 ']'");
+                }
+                
+                return bracketMap;
+            }
+
+            run(input = '') {
+                try {
+                    const bracketMap = this.precomputeBrackets();
+                    
+                    while (this.codePointer < this.code.length && this.output.length < 10000) {
+                        const command = this.code[this.codePointer];
+                        
+                        switch (command) {
+                            case '>':
+                                this.pointer = (this.pointer + 1) % 30000;
+                                break;
+                            case '<':
+                                this.pointer = (this.pointer - 1 + 30000) % 30000;
+                                break;
+                            case '+':
+                                this.memory[this.pointer] = (this.memory[this.pointer] + 1) % 256;
+                                break;
+                            case '-':
+                                this.memory[this.pointer] = (this.memory[this.pointer] - 1 + 256) % 256;
+                                break;
+                            case '.':
+                                this.output += String.fromCharCode(this.memory[this.pointer]);
+                                break;
+                            case ',':
+                                if (input) {
+                                    this.memory[this.pointer] = input.charCodeAt(0) % 256;
+                                    input = input.substring(1);
+                                } else {
+                                    this.memory[this.pointer] = 0;
+                                }
+                                break;
+                            case '[':
+                                if (this.memory[this.pointer] === 0) {
+                                    this.codePointer = bracketMap.get(this.codePointer);
+                                }
+                                break;
+                            case ']':
+                                if (this.memory[this.pointer] !== 0) {
+                                    this.codePointer = bracketMap.get(this.codePointer);
+                                }
+                                break;
+                        }
+                        
+                        this.codePointer++;
+                    }
+                    
+                    if (this.output.length >= 10000) {
+                        this.output = this.output.substring(0, 10000) + "\n\n输出截断: 超过10000字符限制";
+                    }
+                    
+                    return this.output;
+                } catch (error) {
+                    return `执行错误: ${error.message}`;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const editor = document.getElementById('editor');
+            const output = document.getElementById('output');
+            const runButton = document.getElementById('btn-run');
+            const clearButton = document.getElementById('btn-clear');
+            const exampleButton = document.getElementById('btn-example');
+            const statusElement = document.getElementById('exec-status');
+            
+            const bfInterpreter = new BrainfuckInterpreter();
+            
+            // 执行按钮事件
+            runButton.addEventListener('click', () => {
+                const code = editor.value;
+                if (!code.trim()) {
+                    output.textContent = "错误: 代码为空";
+                    statusElement.textContent = "错误";
+                    return;
+                }
+                
+                statusElement.textContent = "执行中...";
+                runButton.disabled = true;
+                
+                setTimeout(() => {
+                    try {
+                        bfInterpreter.loadCode(code);
+                        const result = bfInterpreter.run();
+                        output.textContent = result || "(无输出)";
+                        statusElement.textContent = "执行完成";
+                    } catch (error) {
+                        output.textContent = `执行错误: ${error.message}`;
+                        statusElement.textContent = "执行失败";
+                    } finally {
+                        runButton.disabled = false;
+                    }
+                }, 10);
+            });
+            
+            // 清除按钮事件
+            clearButton.addEventListener('click', () => {
+                output.textContent = "";
+                statusElement.textContent = "就绪";
+            });
+            
+            // 示例按钮事件
+            exampleButton.addEventListener('click', () => {
+                editor.value = ">++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>+++++++++[<--------->-]<-.";
+            });
+        });
+    </script>
+</body>
+</html>
