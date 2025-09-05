@@ -1,1 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VastNova 0 Beta1 介绍文档</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 40px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .version-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 8px 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .version-switcher select {
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .version-switcher select option {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .content {
+            padding: 30px 40px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin: 20px 0 10px;
+            font-size: 1.4rem;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .code-comment {
+            color: #7f8c8d;
+        }
+        
+        .code-keyword {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .code-string {
+            color: #2ecc71;
+        }
+        
+        .code-variable {
+            color: #e74c3c;
+        }
+        
+        .code-number {
+            color: #f39c12;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .note-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .note-title {
+            font-weight: bold;
+            color: #0d47a1;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            background: #f8f9fa;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .version-switcher {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-top: 15px;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>VastNova 0 Beta1 介绍文档</h1>
+            <div class="subtitle">极简脚本解释器 - 当前版本: 0 Beta1</div>
+            <div class="version-switcher">
+                <select id="version-select">
+                    <option value="beta1" selected>Beta1 版本</option>
+                </select>
+            </div>
+        </header>
+        
+        <div class="content">
+            <section id="overview">
+                <h2>概述</h2>
+                <p>VastNova 是一个极简的脚本解释器，当前版本为 0 Beta1，仅支持最基本的变量操作和输入输出功能。</p>
+            </section>
+            
+            <section id="features">
+                <h2>已实现功能</h2>
+                
+                <h3>1. 变量声明</h3>
+                <div class="code-block">
+                    <span class="code-keyword">var</span> <span class="code-variable">x</span>      <span class="code-comment">// 声明空变量</span><br>
+                    <span class="code-keyword">var</span> <span class="code-variable">y</span> = <span class="code-number">5</span>  <span class="code-comment">// 声明并赋值</span>
+                </div>
+                
+                <h3>2. 输出功能</h3>
+                <div class="code-block">
+                    <span class="code-keyword">out</span> <span class="code-string">"Hello"</span>  <span class="code-comment">// 输出字符串</span><br>
+                    <span class="code-keyword">out</span> <span class="code-variable">y</span>        <span class="code-comment">// 输出变量值</span>
+                </div>
+                
+                <h3>3. 输入功能</h3>
+                <div class="code-block">
+                    <span class="code-keyword">in</span> <span class="code-variable">x</span>  <span class="code-comment">// 从控制台读取输入</span>
+                </div>
+                
+                <h3>4. 常量定义</h3>
+                <div class="code-block">
+                    <span class="code-keyword">const</span> <span class="code-variable">PI</span> = <span class="code-number">3.14</span>  <span class="code-comment">// 定义常量</span>
+                </div>
+            </section>
+            
+            <section id="notes">
+                <h2>注意事项</h2>
+                <div class="note-box">
+                    <div class="note-title">重要提示</div>
+                    <ol>
+                        <li>当前仅支持数字和字符串两种数据类型</li>
+                        <li>变量必须先声明后使用</li>
+                        <li>常量定义后不可修改</li>
+                        <li>错误处理非常基础</li>
+                    </ol>
+                </div>
+            </section>
+            
+            <section id="example">
+                <h2>示例代码</h2>
+                <div class="code-block">
+                    <span class="code-comment">// 简单示例</span><br>
+                    <span class="code-keyword">var</span> <span class="code-variable">name</span><br>
+                    <span class="code-keyword">out</span> <span class="code-string">"请输入你的名字:"</span><br>
+                    <span class="code-keyword">in</span> <span class="code-variable">name</span><br>
+                    <span class="code-keyword">out</span> <span class="code-string">"你好，"</span> <span class="code-variable">name</span>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>VastNova 0 Beta1 - 极简脚本解释器 | © 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // 版本切换功能（为未来版本预留）
+        document.getElementById('version-select').addEventListener('change', function() {
+            if(this.value === 'beta1') {
+                // 当前只有beta1版本，所以不做任何操作
+                return;
+            }
+            // 未来添加其他版本时可以在这里处理
+            alert('当前仅提供 Beta1 版本，更多版本即将推出！');
+        });
+    </script>
+</body>
+</html>
 
