@@ -135,6 +135,10 @@
             font-weight: bold;
         }
         
+        .code-function {
+            color: #1abc9c;
+        }
+        
         ul, ol {
             margin: 15px 0 15px 30px;
         }
@@ -227,6 +231,7 @@
                 <select id="version-select">
                     <option value="beta1">Beta1 版本</option>
                     <option value="beta2">Beta2 版本</option>
+                    <option value="beta3">Beta3 版本</option>
                 </select>
             </div>
         </header>
@@ -378,6 +383,101 @@
                     </div>
                 </section>
             </div>
+            
+            <!-- Beta3 版本内容 -->
+            <div class="version-content" id="beta3-content">
+                <section id="overview">
+                    <h2>概述</h2>
+                    <p>VastNova 是一个极简的脚本解释器，当前版本为 0 Beta3，在Beta2基础上新增了类似Python的input语法。</p>
+                </section>
+                
+                <section id="new-features">
+                    <h2>新增功能</h2>
+                    <div class="new-feature">
+                        <div class="new-feature-title">类似Python的input语法</div>
+                        <p>Beta3版本新增了更灵活的输入语法：</p>
+                        <ul>
+                            <li>支持带提示信息的输入</li>
+                            <li>语法：<code>变量 = input "提示信息"</code></li>
+                            <li>与原有的<code>in</code>命令兼容</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <section id="features">
+                    <h2>已实现功能</h2>
+                    
+                    <h3>1. 变量声明</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">var</span> <span class="code-variable">x</span>      <span class="code-comment">// 声明空变量</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">y</span> = <span class="code-number">5</span>  <span class="code-comment">// 声明并赋值</span>
+                    </div>
+                    
+                    <h3>2. 输出功能</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">out</span> <span class="code-string">"Hello"</span>  <span class="code-comment">// 输出字符串</span><br>
+                        <span class="code-keyword">out</span> <span class="code-variable">y</span>        <span class="code-comment">// 输出变量值</span>
+                    </div>
+                    
+                    <h3>3. 输入功能</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">in</span> <span class="code-variable">x</span>  <span class="code-comment">// 从控制台读取输入</span><br>
+                        <span class="code-variable">name</span> = <span class="code-function">input</span> <span class="code-string">"请输入你的名字:"</span>  <span class="code-comment">// 带提示的输入</span>
+                    </div>
+                    
+                    <h3>4. 常量定义</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">const</span> <span class="code-variable">PI</span> = <span class="code-number">3.14</span>  <span class="code-comment">// 定义常量</span>
+                    </div>
+                    
+                    <h3>5. 四则运算</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">var</span> <span class="code-variable">a</span> = <span class="code-number">10</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">b</span> = <span class="code-number">5</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">sum</span> = <span class="code-variable">a</span> <span class="code-operator">+</span> <span class="code-variable">b</span>  <span class="code-comment">// 加法运算</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">diff</span> = <span class="code-variable">a</span> <span class="code-operator">-</span> <span class="code-variable">b</span>  <span class="code-comment">// 减法运算</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">product</span> = <span class="code-variable">a</span> <span class="code-operator">*</span> <span class="code-variable">b</span>  <span class="code-comment">// 乘法运算</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">quotient</span> = <span class="code-variable">a</span> <span class="code-operator">/</span> <span class="code-variable">b</span>  <span class="code-comment">// 除法运算</span><br>
+                        <span class="code-keyword">out</span> <span class="code-variable">sum</span><br>
+                        <span class="code-keyword">out</span> <span class="code-variable">product</span>
+                    </div>
+                </section>
+                
+                <section id="notes">
+                    <h2>注意事项</h2>
+                    <div class="note-box">
+                        <div class="note-title">重要提示</div>
+                        <ol>
+                            <li>当前仅支持数字和字符串两种数据类型</li>
+                            <li>变量必须先声明后使用</li>
+                            <li>常量定义后不可修改</li>
+                            <li>错误处理非常基础</li>
+                            <li>四则运算仅支持数字类型</li>
+                            <li>input语法需要变量已声明</li>
+                        </ol>
+                    </div>
+                </section>
+                
+                <section id="example">
+                    <h2>示例代码</h2>
+                    <div class="code-block">
+                        <span class="code-comment">// 用户信息收集示例</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">name</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">age</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">height</span><br>
+                        <br>
+                        <span class="code-comment">// 使用input语法收集信息</span><br>
+                        <span class="code-variable">name</span> = <span class="code-function">input</span> <span class="code-string">"请输入你的名字:"</span><br>
+                        <span class="code-variable">age</span> = <span class="code-function">input</span> <span class="code-string">"请输入你的年龄:"</span><br>
+                        <span class="code-variable">height</span> = <span class="code-function">input</span> <span class="code-string">"请输入你的身高(cm):"</span><br>
+                        <br>
+                        <span class="code-keyword">out</span> <span class="code-string">"个人信息:"</span><br>
+                        <span class="code-keyword">out</span> <span class="code-string">"姓名:"</span> <span class="code-variable">name</span><br>
+                        <span class="code-keyword">out</span> <span class="code-string">"年龄:"</span> <span class="code-variable">age</span><br>
+                        <span class="code-keyword">out</span> <span class="code-string">"身高:"</span> <span class="code-variable">height</span> <span class="code-string">"cm"</span>
+                    </div>
+                </section>
+            </div>
         </div>
         
         <footer>
@@ -390,6 +490,7 @@
         const versionSelect = document.getElementById('version-select');
         const beta1Content = document.getElementById('beta1-content');
         const beta2Content = document.getElementById('beta2-content');
+        const beta3Content = document.getElementById('beta3-content');
         const currentVersion = document.getElementById('current-version');
         
         // 初始设置
@@ -398,14 +499,21 @@
         
         // 切换版本事件
         versionSelect.addEventListener('change', function() {
+            // 隐藏所有内容
+            beta1Content.classList.remove('active');
+            beta2Content.classList.remove('active');
+            beta3Content.classList.remove('active');
+            
+            // 显示选中的版本内容
             if(this.value === 'beta1') {
                 beta1Content.classList.add('active');
-                beta2Content.classList.remove('active');
                 currentVersion.textContent = 'Beta1';
             } else if(this.value === 'beta2') {
-                beta1Content.classList.remove('active');
                 beta2Content.classList.add('active');
                 currentVersion.textContent = 'Beta2';
+            } else if(this.value === 'beta3') {
+                beta3Content.classList.add('active');
+                currentVersion.textContent = 'Beta3';
             }
         });
     </script>
