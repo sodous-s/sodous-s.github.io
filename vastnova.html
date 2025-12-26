@@ -21,9 +21,9 @@
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.92);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow: hidden;
@@ -113,6 +113,14 @@
             color: #7f8c8d;
         }
         
+        .code-single-comment {
+            color: #95a5a6;
+        }
+        
+        .code-multi-comment {
+            color: #bdc3c7;
+        }
+        
         .code-keyword {
             color: #3498db;
             font-weight: bold;
@@ -186,6 +194,88 @@
             font-size: 1.2rem;
         }
         
+        .version-history {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .version-item {
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .version-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .version-item.beta1 {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .version-item.beta2 {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+        
+        .version-item.beta3 {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+        
+        .version-item.beta4 {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .version-item.active {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .version-label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .version-date {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .feature-list {
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px 0;
+        }
+        
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .feature-icon.beta1 { background: #3498db; }
+        .feature-icon.beta2 { background: #9b59b6; }
+        .feature-icon.beta3 { background: #2ecc71; }
+        .feature-icon.beta4 { background: #e74c3c; }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -219,6 +309,11 @@
                 margin-top: 15px;
                 display: inline-block;
             }
+            
+            .version-history {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -226,26 +321,61 @@
     <div class="container">
         <header>
             <h1>VastNova 脚本解释器文档</h1>
-            <div class="subtitle">极简脚本解释器 - 当前版本: <span id="current-version">Beta1</span></div>
+            <div class="subtitle">极简脚本解释器 - 当前版本: <span id="current-version">Beta4</span></div>
             <div class="version-switcher">
                 <select id="version-select">
                     <option value="beta1">Beta1 版本</option>
                     <option value="beta2">Beta2 版本</option>
                     <option value="beta3">Beta3 版本</option>
+                    <option value="beta4" selected>Beta4 版本</option>
                 </select>
             </div>
         </header>
         
         <div class="content">
+            <!-- 版本历史导航 -->
+            <div class="version-history">
+                <div class="version-item beta1" data-version="beta1">
+                    <div class="version-label">Beta1</div>
+                    <div class="version-date">基础版本</div>
+                </div>
+                <div class="version-item beta2" data-version="beta2">
+                    <div class="version-label">Beta2</div>
+                    <div class="version-date">四则运算</div>
+                </div>
+                <div class="version-item beta3" data-version="beta3">
+                    <div class="version-label">Beta3</div>
+                    <div class="version-date">Input增强</div>
+                </div>
+                <div class="version-item beta4 active" data-version="beta4">
+                    <div class="version-label">Beta4</div>
+                    <div class="version-date">注释功能</div>
+                </div>
+            </div>
+            
             <!-- Beta1 版本内容 -->
-            <div class="version-content active" id="beta1-content">
+            <div class="version-content" id="beta1-content">
                 <section id="overview">
                     <h2>概述</h2>
                     <p>VastNova 是一个极简的脚本解释器，当前版本为 0 Beta1，仅支持最基本的变量操作和输入输出功能。</p>
                 </section>
                 
                 <section id="features">
-                    <h2>已实现功能</h2>
+                    <h2>Beta1 已实现功能</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>变量声明和赋值</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>基本输入输出</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>常量定义</span>
+                        </div>
+                    </div>
                     
                     <h3>1. 变量声明</h3>
                     <div class="code-block">
@@ -303,7 +433,7 @@
                 </section>
                 
                 <section id="new-features">
-                    <h2>新增功能</h2>
+                    <h2>Beta2 新增功能</h2>
                     <div class="new-feature">
                         <div class="new-feature-title">四则运算支持</div>
                         <p>Beta2版本新增了对基本四则运算的支持：</p>
@@ -318,6 +448,24 @@
                 
                 <section id="features">
                     <h2>已实现功能</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>变量声明和赋值</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>基本输入输出</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>常量定义</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta2"></div>
+                            <span>四则运算</span>
+                        </div>
+                    </div>
                     
                     <h3>1. 变量声明</h3>
                     <div class="code-block">
@@ -392,7 +540,7 @@
                 </section>
                 
                 <section id="new-features">
-                    <h2>新增功能</h2>
+                    <h2>Beta3 新增功能</h2>
                     <div class="new-feature">
                         <div class="new-feature-title">类似Python的input语法</div>
                         <p>Beta3版本新增了更灵活的输入语法：</p>
@@ -406,6 +554,28 @@
                 
                 <section id="features">
                     <h2>已实现功能</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>变量声明和赋值</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>基本输入输出</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>常量定义</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta2"></div>
+                            <span>四则运算</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta3"></div>
+                            <span>input语法增强</span>
+                        </div>
+                    </div>
                     
                     <h3>1. 变量声明</h3>
                     <div class="code-block">
@@ -478,6 +648,138 @@
                     </div>
                 </section>
             </div>
+            
+            <!-- Beta4 版本内容 -->
+            <div class="version-content active" id="beta4-content">
+                <section id="overview">
+                    <h2>概述</h2>
+                    <p>VastNova 是一个极简的脚本解释器，当前版本为 0 Beta4，在Beta3基础上新增了多行注释功能。</p>
+                </section>
+                
+                <section id="new-features">
+                    <h2>Beta4 新增功能</h2>
+                    <div class="new-feature">
+                        <div class="new-feature-title">多行注释支持</div>
+                        <p>Beta4版本新增了对多行注释的支持：</p>
+                        <ul>
+                            <li>单行注释：<code># 这是一个单行注释</code></li>
+                            <li>多行注释：<code>!# 这是一个多行注释 ... #!</code></li>
+                            <li>可以注释多行代码或添加文档说明</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <section id="previous-features">
+                    <h2>之前版本功能回顾</h2>
+                    
+                    <h3>Beta3 功能</h3>
+                    <p>类似Python的input语法：</p>
+                    <div class="code-block">
+                        <span class="code-variable">a</span> = <span class="code-function">input</span> <span class="code-string">"请输入内容:"</span>  <span class="code-comment">// 带提示的输入</span>
+                    </div>
+                </section>
+                
+                <section id="features">
+                    <h2>基本功能</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>变量声明和赋值</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>基本输入输出</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta1"></div>
+                            <span>常量定义</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta2"></div>
+                            <span>四则运算</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta3"></div>
+                            <span>input语法增强</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon beta4"></div>
+                            <span>多行注释</span>
+                        </div>
+                    </div>
+                    
+                    <h3>1. 变量声明</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">var</span> <span class="code-variable">x</span>      <span class="code-single-comment"># 声明空变量</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">y</span> = <span class="code-number">5</span>  <span class="code-single-comment"># 声明并赋值</span>
+                    </div>
+                    
+                    <h3>2. 输出功能</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">out</span> <span class="code-string">"Hello"</span>  <span class="code-single-comment"># 输出字符串</span><br>
+                        <span class="code-keyword">out</span> <span class="code-variable">y</span>        <span class="code-single-comment"># 输出变量值</span>
+                    </div>
+                    
+                    <h3>3. 输入功能</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">in</span> <span class="code-variable">x</span>  <span class="code-single-comment"># 从控制台读取输入</span><br>
+                        <span class="code-variable">a</span> = <span class="code-function">input</span> <span class="code-string">"输入内容"</span>  <span class="code-single-comment"># 带提示的输入</span>
+                    </div>
+                    
+                    <h3>4. 常量定义</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">const</span> <span class="code-variable">PI</span> = <span class="code-number">3.14</span>  <span class="code-single-comment"># 定义常量</span>
+                    </div>
+                    
+                    <h3>5. 四则运算</h3>
+                    <p>可以使用加、减、乘、除来进行运算</p>
+                    <div class="code-block">
+                        <span class="code-keyword">var</span> <span class="code-variable">a</span> = <span class="code-number">10</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">b</span> = <span class="code-number">5</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">sum</span> = <span class="code-variable">a</span> <span class="code-operator">+</span> <span class="code-variable">b</span>  <span class="code-single-comment"># 加法运算</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">diff</span> = <span class="code-variable">a</span> <span class="code-operator">-</span> <span class="code-variable">b</span>  <span class="code-single-comment"># 减法运算</span>
+                    </div>
+                    
+                    <h3>6. 多行注释</h3>
+                    <div class="code-block">
+                        <span class="code-keyword">var</span> <span class="code-variable">a</span><br>
+                        <span class="code-single-comment">#这是一个单行注释</span><br>
+                        <span class="code-multi-comment">!#这是一个多行注释</span><br>
+                        <span class="code-multi-comment">它可以注释很长</span><br>
+                        <span class="code-multi-comment">#!</span>
+                    </div>
+                </section>
+                
+                <section id="notes">
+                    <h2>注意事项</h2>
+                    <div class="note-box">
+                        <div class="note-title">重要提示</div>
+                        <ol>
+                            <li>当前仅支持数字和字符串两种数据类型</li>
+                            <li>变量必须先声明后使用</li>
+                            <li>常量定义后不可修改</li>
+                            <li>错误处理非常基础</li>
+                        </ol>
+                    </div>
+                </section>
+                
+                <section id="example">
+                    <h2>示例代码</h2>
+                    <div class="code-block">
+                        <span class="code-single-comment"># 简单示例</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">name</span><br>
+                        <span class="code-keyword">out</span> <span class="code-string">"请输入你的名字:"</span><br>
+                        <span class="code-keyword">in</span> <span class="code-variable">name</span><br>
+                        <span class="code-keyword">out</span> <span class="code-string">"你好，"</span> <span class="code-variable">name</span><br>
+                        <span class="code-keyword">var</span> <span class="code-variable">age</span><br>
+                        <span class="code-variable">age</span> = <span class="code-function">input</span> <span class="code-string">"请输入你的年龄"</span><br>
+                        <span class="code-keyword">out</span> <span class="code-variable">age</span><br>
+                        <span class="code-multi-comment">!#</span><br>
+                        <span class="code-multi-comment">以上为简单的例子</span><br>
+                        <span class="code-multi-comment">#!</span>
+                    </div>
+                </section>
+            </div>
         </div>
         
         <footer>
@@ -488,34 +790,54 @@
     <script>
         // 版本切换功能
         const versionSelect = document.getElementById('version-select');
-        const beta1Content = document.getElementById('beta1-content');
-        const beta2Content = document.getElementById('beta2-content');
-        const beta3Content = document.getElementById('beta3-content');
+        const versionItems = document.querySelectorAll('.version-item');
+        const contents = {
+            'beta1': document.getElementById('beta1-content'),
+            'beta2': document.getElementById('beta2-content'),
+            'beta3': document.getElementById('beta3-content'),
+            'beta4': document.getElementById('beta4-content')
+        };
         const currentVersion = document.getElementById('current-version');
         
-        // 初始设置
-        versionSelect.value = 'beta1';
-        currentVersion.textContent = 'Beta1';
+        // 初始设置为Beta4
+        setActiveVersion('beta4');
         
-        // 切换版本事件
+        // 版本选择器事件
         versionSelect.addEventListener('change', function() {
+            setActiveVersion(this.value);
+        });
+        
+        // 版本导航项点击事件
+        versionItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const version = this.dataset.version;
+                versionSelect.value = version;
+                setActiveVersion(version);
+            });
+        });
+        
+        function setActiveVersion(version) {
+            // 更新版本选择器
+            versionSelect.value = version;
+            currentVersion.textContent = version.charAt(0).toUpperCase() + version.slice(1);
+            
             // 隐藏所有内容
-            beta1Content.classList.remove('active');
-            beta2Content.classList.remove('active');
-            beta3Content.classList.remove('active');
+            Object.values(contents).forEach(content => {
+                content.classList.remove('active');
+            });
             
             // 显示选中的版本内容
-            if(this.value === 'beta1') {
-                beta1Content.classList.add('active');
-                currentVersion.textContent = 'Beta1';
-            } else if(this.value === 'beta2') {
-                beta2Content.classList.add('active');
-                currentVersion.textContent = 'Beta2';
-            } else if(this.value === 'beta3') {
-                beta3Content.classList.add('active');
-                currentVersion.textContent = 'Beta3';
-            }
-        });
+            contents[version].classList.add('active');
+            
+            // 更新版本导航状态
+            versionItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.version === version) {
+                    item.classList.add('active');
+                }
+            });
+        }
     </script>
 </body>
 </html>
+
